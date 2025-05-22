@@ -7,6 +7,8 @@ interface InputProps {
   name: string;
   placeholder?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  error: boolean;
+  errorMessage?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -16,6 +18,8 @@ const Input: React.FC<InputProps> = ({
   onChange,
   placeholder,
   name,
+  error = false,
+  errorMessage,
 }) => {
   return (
     <div className="mb-2 flex flex-col gap-2">
@@ -27,8 +31,15 @@ const Input: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={`w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 ${
+          error
+            ? "border-red-500 focus:ring-red-400"
+            : "border-gray-300 focus:ring-blue-500"
+        }`}
       />
+      {error && errorMessage ? (
+        <p className="text-sm text-red-600">{errorMessage}</p>
+      ) : null}
     </div>
   );
 };
