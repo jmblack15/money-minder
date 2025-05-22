@@ -3,16 +3,18 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
 import { LoadingSpinner } from "@/components/ui/LoadingSpin";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
 
-export default function Home() {
+export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [userForm, setUserForm] = useState({
     email: "",
+    name: "",
+    lastName: "",
     password: "",
-    remember: true,
+    confirmPasword: "",
   });
 
   const handleSubmit = () => {
@@ -27,23 +29,41 @@ export default function Home() {
     }));
   };
 
+  console.log(userForm);
+
   return (
     <section className="bg-background h-screen flex flex-col items-center justify-center">
-      <div className="bg-white h-[550px] w-[375px] rounded-md shadow p-6 flex flex-col justify-evenly items-center">
+      <div className="bg-white  w-[375px] h-[700px] rounded-md shadow p-6 flex flex-col justify-evenly items-center">
         {isLoading ? (
           <LoadingSpinner />
         ) : (
           <>
             <h2 className="text-2xl font-bold text-center text-primary">
-              Login to Your Account
+              Create an Account
             </h2>
             <p className="text-sm text-center">
-              Enter your email & password to login
+              Enter your personal details to create account
             </p>
 
-            <form action={handleSubmit} className="flex flex-col gap-2 w-full">
+            <form action={handleSubmit} className="flex flex-col w-full">
               <Input
-                label="Email"
+                label="Your Name"
+                type="text"
+                value={userForm.name}
+                onChange={handleChangeInput}
+                name="name"
+              />
+
+              <Input
+                label="Your Last Name"
+                type="text"
+                value={userForm.lastName}
+                onChange={handleChangeInput}
+                name="lastName"
+              />
+
+              <Input
+                label="Your Email"
                 type="email"
                 value={userForm.email}
                 onChange={handleChangeInput}
@@ -58,31 +78,23 @@ export default function Home() {
                 name="password"
               />
 
-              <div className="mt-2 flex gap-2 items-center">
-                <input
-                  type="checkbox"
-                  name="remember"
-                  id="remember"
-                  checked={userForm.remember}
-                  onChange={() =>
-                    setUserForm((prev) => ({
-                      ...prev,
-                      remember: !prev.remember,
-                    }))
-                  }
-                />
-                <label htmlFor="remember">Remember me</label>
-              </div>
+              <Input
+                label="Confirm Pasword"
+                type="password"
+                value={userForm.confirmPasword}
+                onChange={handleChangeInput}
+                name="confirmPasword"
+              />
 
               <Button type="submit" variant="primary">
-                Login
+                Create Account
               </Button>
             </form>
 
-            <p className="text-sm">
-              Don&apos;t have account?{" "}
-              <Link className="text-blue-600" href="/signUp">
-                Create an account
+            <p className="text-sm mt-3">
+              Already have an account?{" "}
+              <Link className="text-blue-600" href="/">
+                Log in
               </Link>
             </p>
           </>
